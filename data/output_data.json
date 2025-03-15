@@ -1,0 +1,47 @@
+{
+    "greeting": "Доброе утро",
+    "cards": [
+        {
+            "last_digits": "7197",
+            "total_spent": 4069.89,
+            "cashback": 40
+        },
+        {
+            "last_digits": "4556",
+            "total_spent": 3111.7,
+            "cashback": 31
+        }
+    ],
+    "top_transactions": [
+        {
+            "date": "05.08.2021",
+            "amount": -9.5,
+            "category": "Косметика",
+            "description": "OOO Balid"
+        },
+        {
+            "date": "03.08.2021",
+            "amount": -10.0,
+            "category": "Связь",
+            "description": "Devajs Servis."
+        },
+        {
+            "date": "06.08.2021",
+            "amount": -23.17,
+            "category": "Супермаркеты",
+            "description": "Пятёрочка"
+        },
+        {
+            "date": "02.08.2021",
+            "amount": -30.0,
+            "category": "Сервис",
+            "description": "Sp_Fotostudiya Mariya"
+        },
+        {
+            "date": "11.08.2021",
+            "amount": -39.99,
+            "category": "Супермаркеты",
+            "description": "Магнит"
+        }
+    ]
+}
