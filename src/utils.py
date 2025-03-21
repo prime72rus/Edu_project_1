@@ -155,6 +155,26 @@ def api_currency_rates() -> list[dict]:
     return result
 
 
+def api_convert_currency(amount: float) -> float:
+    """
+    Функция принимает на вход число, обращается к внешнему API
+    для получения текущего курса валюты (USD) и конвертации числа в рубли.
+    """
+    load_dotenv()
+    api_key = os.getenv("API_KEY_RATES")
+    url = "https://api.apilayer.com/exchangerates_data/convert"
+
+    payload = {"amount": amount, "from": "USD", "to": "RUB"}
+    headers = {"apikey": api_key}
+
+    response = requests.get(url, headers=headers, params=payload)
+
+    # status_code = response.status_code
+    result = json.loads(response.text)
+
+    return float(round(result.get("result", 0.0), 2))
+
+
 def api_currency_stocks() -> list[dict]:
     """
     Функция получения курса валют из внешнего источника
@@ -200,4 +220,5 @@ if __name__ == "__main__":  # pragma: no cover
     # stocks = get_list_stocks(result)
     # print(stocks)
     # print(api_currency_rates())
-    api_currency_stocks()
+    # api_currency_stocks()
+    print(api_convert_currency(100.0))
