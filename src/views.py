@@ -10,6 +10,8 @@ from src.utils import (
     get_unique_card_number,
     read_xlsx,
     selecting_data_by_date,
+    api_currency_rates,
+    api_currency_stocks,
 )
 
 
@@ -27,7 +29,13 @@ def main() -> None:
         card_info = {"last_digits": card[-4:], "total_spent": total_expenses, "cashback": cashback}
         cards_info.append(card_info)
 
-    response = {"greeting": get_greeting(), "cards": cards_info, "top_transactions": get_top_operations(data)}
+    response = {
+        "greeting": get_greeting(),
+        "cards": cards_info,
+        "top_transactions": get_top_operations(data),
+        "currency_rates": api_currency_rates(),
+        "stock_prices": api_currency_stocks()
+    }
     with open("../data/output_data.json", "w", encoding="utf-8") as file_json:
         json.dump(response, file_json, ensure_ascii=False, indent=4)  # type: ignore
 

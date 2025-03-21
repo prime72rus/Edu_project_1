@@ -43,5 +43,37 @@
             "category": "Супермаркеты",
             "description": "Магнит"
         }
+    ],
+    "currency_rates": [
+        {
+            "currency": "USD",
+            "rate": 84.93
+        },
+        {
+            "currency": "EUR",
+            "rate": 91.97
+        }
+    ],
+    "stock_prices": [
+        {
+            "stock": "AAPL",
+            "price": 214.1
+        },
+        {
+            "stock": "AMZN",
+            "price": 194.95
+        },
+        {
+            "stock": "GOOGL",
+            "price": 162.8
+        },
+        {
+            "stock": "MSFT",
+            "price": 386.84
+        },
+        {
+            "stock": "TSLA",
+            "price": 236.26
+        }
     ]
 }

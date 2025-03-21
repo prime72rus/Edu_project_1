@@ -1,12 +1,14 @@
 import json
+import os
 import re
 from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
-from pandas.core.interchange.dataframe_protocol import DataFrame
+import requests
+from dotenv import load_dotenv
 
-from config import PATH_TO_OPERATIONS
+from config import PATH_TO_OPERATIONS, PATH_TO_USER_SETTINGS
 
 
 def read_xlsx(xlsx_file_path: Path) -> pd.DataFrame:
@@ -43,13 +45,10 @@ def selecting_data_by_date(data_for_selection: pd.DataFrame, user_input_datetime
         data_for_selection["Дата операции"], format="%d.%m.%Y %H:%M:%S"
     )
 
-    # Преобразование введенной пользователем даты в объект datetime
     user_datetime = pd.to_datetime(user_input_datetime, format="%Y-%m-%d %H:%M:%S")
 
-    # Определение начала месяца (первый день месяца в 00:00:00)
     start_of_month = user_datetime.replace(day=1, hour=0, minute=0, second=0)
 
-    # Фильтрация данных: от начала месяца до указанной даты и времени
     filtered_data = data_for_selection[
         (data_for_selection["Дата операции"] >= start_of_month)
         & (data_for_selection["Дата операции"] <= user_datetime)
@@ -94,15 +93,15 @@ def get_unique_card_number(data_df: pd.DataFrame) -> list:
 
 def calculate_total_expenses(data_df: pd.DataFrame, card_number: str) -> float:
     card_data = data_df[data_df["Номер карты"] == card_number]
-    total_expenses = card_data[card_data["Сумма платежа"] < 0]["Сумма платежа"].sum()
-    return float(round(abs(total_expenses), 2))
+    total_expenses_calc = card_data[card_data["Сумма платежа"] < 0]["Сумма платежа"].sum()
+    return float(round(abs(total_expenses_calc), 2))
 
 
-def calculate_cashback(total_expenses: float) -> int:
+def calculate_cashback(input_total_expenses: float) -> int:
     """
     Функция для расчета кешбэка (1 рубль на каждые 100 рублей)
     """
-    return int(total_expenses // 100)
+    return int(input_total_expenses // 100)
 
 
 def get_top_operations(data_df: pd.DataFrame) -> list[dict]:
@@ -125,19 +124,80 @@ def get_top_operations(data_df: pd.DataFrame) -> list[dict]:
     return top_operations
 
 
+def get_settings_from_file() -> dict:
+    """
+    Функция получения пользовательских настроек из файла user_settings.json
+    """
+    with open(PATH_TO_USER_SETTINGS, encoding="utf-8") as file_json:
+        data_from_file = dict(json.load(file_json))
+        return data_from_file
+
+
+def api_currency_rates() -> list[dict]:
+    """
+    Функция получения курса валют из внешнего источника
+    """
+    result = []
+    currency_list = get_settings_from_file()["user_currencies"]
+    load_dotenv()
+    api_key = os.getenv("API_KEY_RATES")
+    url = "https://api.apilayer.com/exchangerates_data/latest"
+    for base in currency_list:
+        payload = {"symbols": "RUB", "base": base}
+        headers = {"apikey": api_key}
+
+        response = requests.get(url, headers=headers, params=payload)
+        # status_code = response.status_code
+        currency_rate = json.loads(response.text)
+        rates = currency_rate.get("rates")
+        result.append({"currency": base, "rate": round(rates["RUB"], 2)})
+
+    return result
+
+
+def api_currency_stocks() -> list[dict]:
+    """
+    Функция получения курса валют из внешнего источника
+    """
+    result = []
+    currency_list = get_settings_from_file()["user_stocks"]
+    load_dotenv()
+    api_key = os.getenv("API_KEY_STOCKS")
+
+    for stock in currency_list:
+        url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=compact&symbol={stock}&apikey={api_key}"
+
+        response = requests.get(url)
+        # status_code = response.status_code
+        stocks = json.loads(response.text)
+        stocks_data = stocks["Meta Data"]["3. Last Refreshed"]
+        temp_result = stocks["Time Series (Daily)"][stocks_data]["4. close"]
+
+        result.append({"stock": stock, "price": round(float(temp_result), 2)})
+    return result
+
+
 if __name__ == "__main__":  # pragma: no cover
 
-    data = read_xlsx(PATH_TO_OPERATIONS)
+    # data = read_xlsx(PATH_TO_OPERATIONS)
+    #
+    # cards_info = []
+    # for card in get_unique_card_number(data):
+    #     total_expenses = calculate_total_expenses(data, card)
+    #     cashback = calculate_cashback(total_expenses)
+    #
+    #     card_info = {"last_digits": card[-4:], "total_spent": total_expenses, "cashback": cashback}
+    #     cards_info.append(card_info)
+    #
+    # response = {"greeting": get_greeting(), "cards": cards_info, "top_transactions": get_top_operations(data)}
+    # print(json.dumps(response, ensure_ascii=False, indent=4))
+    # result_checking = checking_date_from_user("2025-03-12 12:03:55")
+    # print(result_checking)
 
-    cards_info = []
-    for card in get_unique_card_number(data):
-        total_expenses = calculate_total_expenses(data, card)
-        cashback = calculate_cashback(total_expenses)
-
-        card_info = {"last_digits": card[-4:], "total_spent": total_expenses, "cashback": cashback}
-        cards_info.append(card_info)
-
-    response = {"greeting": get_greeting(), "cards": cards_info, "top_transactions": get_top_operations(data)}
-    print(json.dumps(response, ensure_ascii=False, indent=4))
-    result_checking = checking_date_from_user("2025-03-12 12:03:55")
-    print(result_checking)
+    # result = get_settings_from_file()
+    # currency = get_list_currency(result)
+    # print(currency)
+    # stocks = get_list_stocks(result)
+    # print(stocks)
+    # print(api_currency_rates())
+    api_currency_stocks()
