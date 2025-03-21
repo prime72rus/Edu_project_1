@@ -8,7 +8,7 @@ import pandas as pd
 import requests
 from dotenv import load_dotenv
 
-from config import PATH_TO_OPERATIONS, PATH_TO_USER_SETTINGS
+from config import PATH_TO_USER_SETTINGS
 
 
 def read_xlsx(xlsx_file_path: Path) -> pd.DataFrame:
@@ -27,7 +27,8 @@ def checking_date_from_user(user_input_date: str) -> str:
     при несовпадении вызывает исключение.
     """
     pattern = re.compile(
-        r"^\d\d\d\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01]) (00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]):([0-9]|[0-5][0-9])$"
+        r"^\d\d\d\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01]) "
+        r"(00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]):([0-9]|[0-5][0-9])$"
     )
     result_match = pattern.fullmatch(user_input_date)
     if result_match is None:
@@ -171,13 +172,13 @@ def api_convert_currency(amount: str) -> float:
 
     # status_code = response.status_code
     result = json.loads(response.text)
-
-    return float(round(result.get("result", 0.0), 2))
+    usd_rate = float(round(result.get("result", 0.0), 2))
+    return usd_rate
 
 
 def api_currency_stocks() -> list[dict]:
     """
-    Функция получения курса валют из внешнего источника
+    Функция получения курса валют из внешнего источника.
     """
     result = []
     currency_list = get_settings_from_file()["user_stocks"]
@@ -185,7 +186,10 @@ def api_currency_stocks() -> list[dict]:
     api_key = os.getenv("API_KEY_STOCKS")
 
     for stock in currency_list:
-        url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=compact&symbol={stock}&apikey={api_key}"
+        url = (
+            f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=compact&"
+            f"symbol={stock}&apikey={api_key}"
+        )
 
         response = requests.get(url)
         # status_code = response.status_code
@@ -197,28 +201,13 @@ def api_currency_stocks() -> list[dict]:
     return result
 
 
-if __name__ == "__main__":  # pragma: no cover
+def convert_stock_price(stock_price: list[dict]) -> list[dict]:
+    """
+    Функция конвертации стоимости акций из USD в рубли.
+    """
+    for value in stock_price:
+        value["price"] = float(api_convert_currency(value["price"]))
+    return stock_price
 
-    # data = read_xlsx(PATH_TO_OPERATIONS)
-    #
-    # cards_info = []
-    # for card in get_unique_card_number(data):
-    #     total_expenses = calculate_total_expenses(data, card)
-    #     cashback = calculate_cashback(total_expenses)
-    #
-    #     card_info = {"last_digits": card[-4:], "total_spent": total_expenses, "cashback": cashback}
-    #     cards_info.append(card_info)
-    #
-    # response = {"greeting": get_greeting(), "cards": cards_info, "top_transactions": get_top_operations(data)}
-    # print(json.dumps(response, ensure_ascii=False, indent=4))
-    # result_checking = checking_date_from_user("2025-03-12 12:03:55")
-    # print(result_checking)
 
-    # result = get_settings_from_file()
-    # currency = get_list_currency(result)
-    # print(currency)
-    # stocks = get_list_stocks(result)
-    # print(stocks)
-    # print(api_currency_rates())
-    # api_currency_stocks()
-    print(api_convert_currency("100.0"))
+# if __name__ == "__main__":  # pragma: no cover

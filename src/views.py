@@ -2,6 +2,8 @@ import json
 
 from config import PATH_TO_OPERATIONS
 from src.utils import (
+    api_currency_rates,
+    api_currency_stocks,
     calculate_cashback,
     calculate_total_expenses,
     checking_date_from_user,
@@ -10,8 +12,6 @@ from src.utils import (
     get_unique_card_number,
     read_xlsx,
     selecting_data_by_date,
-    api_currency_rates,
-    api_currency_stocks,
 )
 
 
@@ -34,7 +34,7 @@ def main() -> None:
         "cards": cards_info,
         "top_transactions": get_top_operations(data),
         "currency_rates": api_currency_rates(),
-        "stock_prices": api_currency_stocks()
+        "stock_prices": api_currency_stocks(),
     }
     with open("../data/output_data.json", "w", encoding="utf-8") as file_json:
         json.dump(response, file_json, ensure_ascii=False, indent=4)  # type: ignore
