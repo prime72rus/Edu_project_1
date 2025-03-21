@@ -190,10 +190,10 @@ def api_currency_stocks() -> list[dict]:
         response = requests.get(url)
         # status_code = response.status_code
         stocks = json.loads(response.text)
-        stocks_data = stocks["Meta Data"]["3. Last Refreshed"]
-        temp_result = stocks["Time Series (Daily)"][stocks_data]["4. close"]
+        stock_data = stocks["Meta Data"]["3. Last Refreshed"]
+        stock_price = stocks["Time Series (Daily)"][stock_data]["4. close"]
 
-        result.append({"stock": stock, "price": temp_result})
+        result.append({"stock": stock, "price": stock_price})
     return result
 
 
