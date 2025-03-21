@@ -155,7 +155,7 @@ def api_currency_rates() -> list[dict]:
     return result
 
 
-def api_convert_currency(amount: float) -> float:
+def api_convert_currency(amount: str) -> float:
     """
     Функция принимает на вход число, обращается к внешнему API
     для получения текущего курса валюты (USD) и конвертации числа в рубли.
@@ -193,7 +193,7 @@ def api_currency_stocks() -> list[dict]:
         stocks_data = stocks["Meta Data"]["3. Last Refreshed"]
         temp_result = stocks["Time Series (Daily)"][stocks_data]["4. close"]
 
-        result.append({"stock": stock, "price": round(float(temp_result), 2)})
+        result.append({"stock": stock, "price": temp_result})
     return result
 
 
@@ -221,4 +221,4 @@ if __name__ == "__main__":  # pragma: no cover
     # print(stocks)
     # print(api_currency_rates())
     # api_currency_stocks()
-    print(api_convert_currency(100.0))
+    print(api_convert_currency("100.0"))
