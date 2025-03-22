@@ -48,6 +48,7 @@ def web_site_main() -> None:
         "currency_rates": api_currency_rates(),
         "stock_prices": convert_stock_price(stock),
     }
+    print(json.dumps(response, ensure_ascii=False, indent=4))
     with open("../data/output_data.json", "w", encoding="utf-8") as file_json:
         json.dump(response, file_json, ensure_ascii=False, indent=4)  # type: ignore
 
