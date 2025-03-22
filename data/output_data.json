@@ -3,77 +3,77 @@
     "cards": [
         {
             "last_digits": "7197",
-            "total_spent": 4069.89,
-            "cashback": 40
+            "total_spent": 34002.06,
+            "cashback": 340
         },
         {
             "last_digits": "4556",
-            "total_spent": 3111.7,
-            "cashback": 31
+            "total_spent": 52750.0,
+            "cashback": 527
         }
     ],
     "top_transactions": [
         {
-            "date": "05.08.2021",
-            "amount": -9.5,
-            "category": "Косметика",
-            "description": "OOO Balid"
+            "date": "21.03.2019",
+            "amount": 190044.51,
+            "category": "Переводы",
+            "description": "Перевод Кредитная карта. ТП 10.2 RUR"
         },
         {
-            "date": "03.08.2021",
-            "amount": -10.0,
-            "category": "Связь",
-            "description": "Devajs Servis."
+            "date": "21.03.2019",
+            "amount": 100000.0,
+            "category": "Пополнения",
+            "description": "Перевод с карты"
         },
         {
-            "date": "06.08.2021",
-            "amount": -23.17,
-            "category": "Супермаркеты",
-            "description": "Пятёрочка"
+            "date": "21.03.2019",
+            "amount": 100000.0,
+            "category": "Пополнения",
+            "description": "Перевод с карты"
         },
         {
-            "date": "02.08.2021",
-            "amount": -30.0,
-            "category": "Сервис",
-            "description": "Sp_Fotostudiya Mariya"
+            "date": "20.03.2019",
+            "amount": 100000.0,
+            "category": "Переводы",
+            "description": "Пополнение счета"
         },
         {
-            "date": "11.08.2021",
-            "amount": -39.99,
-            "category": "Супермаркеты",
-            "description": "Магнит"
+            "date": "26.03.2019",
+            "amount": 8000.0,
+            "category": "Пополнения",
+            "description": "Перевод с карты"
         }
     ],
     "currency_rates": [
         {
             "currency": "USD",
-            "rate": 84.93
+            "rate": 84.0
         },
         {
             "currency": "EUR",
-            "rate": 91.97
+            "rate": 91.37
         }
     ],
     "stock_prices": [
         {
             "stock": "AAPL",
-            "price": 214.1
+            "price": 18334.9
         },
         {
             "stock": "AMZN",
-            "price": 194.95
+            "price": 16481.84
         },
         {
             "stock": "GOOGL",
-            "price": 162.8
+            "price": 13775.33
         },
         {
             "stock": "MSFT",
-            "price": 386.84
+            "price": 32866.24
         },
         {
             "stock": "TSLA",
-            "price": 236.26
+            "price": 20891.89
         }
     ]
 }
