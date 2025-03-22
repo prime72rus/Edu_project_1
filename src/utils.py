@@ -23,18 +23,11 @@ def read_xlsx(xlsx_file_path: Path) -> pd.DataFrame:
 def checking_date_from_user(user_input_date: str) -> str:
     """
     Функция принимает на вход строку с датой и временем в формате YYYY-MM-DD HH:MM:SS,
-    проверяет ее на соответствие шаблону ввода, в случае совпадения возвращает строку в формате YYYY-MM-DD HH:MM:SS,
-    при несовпадении вызывает исключение.
+    проверяет ее на соответствие шаблону ввода, в случае совпадения возвращает строку в формате YYYY-MM-DD HH:MM:SS.
     """
-    pattern = re.compile(
-        r"^\d\d\d\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01]) "
-        r"(00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]):([0-9]|[0-5][0-9])$"
-    )
-    result_match = pattern.fullmatch(user_input_date)
-    if result_match is None:
-        raise ValueError("Ввод данных не соответствует формату")
-    else:
-        return user_input_date
+    datetime.strptime(user_input_date, "%Y-%m-%d %H:%M:%S")
+    return user_input_date
+
 
 
 def selecting_data_by_date(data_for_selection: pd.DataFrame, user_input_datetime: str) -> pd.DataFrame:
@@ -156,24 +149,23 @@ def api_currency_rates() -> list[dict]:
     return result
 
 
-def api_convert_currency(amount: str) -> float:
+def api_convert_currency() -> float:
     """
-    Функция принимает на вход число, обращается к внешнему API
-    для получения текущего курса валюты (USD) и конвертации числа в рубли.
+    Функция получения курса валют из внешнего источника
     """
     load_dotenv()
     api_key = os.getenv("API_KEY_RATES")
-    url = "https://api.apilayer.com/exchangerates_data/convert"
-
-    payload = {"amount": amount, "from": "USD", "to": "RUB"}
+    url = "https://api.apilayer.com/exchangerates_data/latest"
+    payload = {"symbols": "RUB", "base": "USD"}
     headers = {"apikey": api_key}
 
     response = requests.get(url, headers=headers, params=payload)
-
     # status_code = response.status_code
-    result = json.loads(response.text)
-    usd_rate = float(round(result.get("result", 0.0), 2))
-    return usd_rate
+    currency_rate = json.loads(response.text)
+    rates = currency_rate.get("rates")
+    usd_rate = round(rates["RUB"], 2)
+
+    return float(usd_rate)
 
 
 def api_currency_stocks() -> list[dict]:
@@ -205,8 +197,9 @@ def convert_stock_price(stock_price: list[dict]) -> list[dict]:
     """
     Функция конвертации стоимости акций из USD в рубли.
     """
+    usd_rate = api_convert_currency()
     for value in stock_price:
-        value["price"] = float(api_convert_currency(value["price"]))
+        value["price"] = usd_rate * float(value["price"])
     return stock_price
 
 
