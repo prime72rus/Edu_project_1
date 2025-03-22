@@ -1,8 +1,8 @@
 import json
+import logging
 
 import pandas as pd
 import pytest
-import logging
 
 disable_loggers = ["utils", "views", "services", "reports", "main"]
 

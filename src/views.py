@@ -7,11 +7,12 @@ from src.utils import (
     calculate_cashback,
     calculate_total_expenses,
     checking_date_from_user,
+    convert_stock_price,
     get_greeting,
     get_top_operations,
     get_unique_card_number,
     read_xlsx,
-    selecting_data_by_date, convert_stock_price,
+    selecting_data_by_date,
 )
 
 

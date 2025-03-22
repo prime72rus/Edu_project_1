@@ -1,6 +1,5 @@
 import json
 import os
-import re
 from datetime import datetime
 from pathlib import Path
 
@@ -27,7 +26,6 @@ def checking_date_from_user(user_input_date: str) -> str:
     """
     datetime.strptime(user_input_date, "%Y-%m-%d %H:%M:%S")
     return user_input_date
-
 
 
 def selecting_data_by_date(data_for_selection: pd.DataFrame, user_input_datetime: str) -> pd.DataFrame:

@@ -1,14 +1,25 @@
 import json
 from pathlib import Path
-from unittest.mock import patch, MagicMock
-from datetime import datetime
-from freezegun import freeze_time
+from unittest.mock import MagicMock, patch
+
 import pytest
+from freezegun import freeze_time
 from pandas import DataFrame
 
-from src.utils import read_xlsx, checking_date_from_user, selecting_data_by_date, get_greeting, api_currency_rates, \
-    api_convert_currency, get_unique_card_number, calculate_total_expenses, calculate_cashback, get_top_operations, \
-    api_currency_stocks, convert_stock_price
+from src.utils import (
+    api_convert_currency,
+    api_currency_rates,
+    api_currency_stocks,
+    calculate_cashback,
+    calculate_total_expenses,
+    checking_date_from_user,
+    convert_stock_price,
+    get_greeting,
+    get_top_operations,
+    get_unique_card_number,
+    read_xlsx,
+    selecting_data_by_date
+)
 
 
 def test_read_xlsx(mock_xlsx_data, tmp_path):
