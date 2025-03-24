@@ -15,9 +15,9 @@ from src.utils import (
     selecting_data_by_date
 )
 
-logger = logging.getLogger("utils")
+logger = logging.getLogger("views")
 logger.setLevel(logging.DEBUG)
-file_handler = logging.FileHandler(PATH_TO_LOGGER, mode="w", encoding="utf-8")
+file_handler = logging.FileHandler(f"{PATH_TO_LOGGER}/views.log", mode="w", encoding="utf-8")
 file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
@@ -84,3 +84,7 @@ def web_site_main(user_input: str) -> None:
     output_data = json.dumps(response, ensure_ascii=False, indent=4)
     logger.info(f"{web_site_main.__name__} Вывод данных в консоль")
     print(output_data)
+
+
+if __name__ == "__main__":
+    web_site_main("2025-02-12 10:00:00")
