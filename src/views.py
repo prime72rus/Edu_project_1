@@ -12,7 +12,7 @@ from src.utils import (
     get_top_operations,
     get_unique_card_number,
     read_xlsx,
-    selecting_data_by_date
+    selecting_data_by_date,
 )
 
 logger = logging.getLogger("views")
@@ -84,7 +84,3 @@ def web_site_main(user_input: str) -> None:
     output_data = json.dumps(response, ensure_ascii=False, indent=4)
     logger.info(f"{web_site_main.__name__} Вывод данных в консоль")
     print(output_data)
-
-
-if __name__ == "__main__":
-    web_site_main("2025-02-12 10:00:00")

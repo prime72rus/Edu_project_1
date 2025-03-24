@@ -31,6 +31,18 @@ def test_web_site_main(
     mock_stdout,
 ):
     # Мокирование данных
+    mock_read_xlsx.__name__ = "read_xlsx"
+    mock_selecting_data_by_date.__name__ = "selecting_data_by_date"
+    mock_get_greeting.__name__ = "get_greeting"
+    mock_get_unique_card_number.__name__ = "get_unique_card_number"
+    mock_calculate_total_expenses.__name__ = "calculate_total_expenses"
+    mock_calculate_cashback.__name__ = "calculate_cashback"
+    mock_api_currency_stocks.__name__ = "api_currency_stocks"
+    mock_get_top_operations.__name__ = "get_top_operations"
+    mock_api_currency_rates.__name__ = "api_currency_rates"
+    mock_convert_stock_price.__name__ = "convert_stock_price"
+
+
     mock_read_xlsx.return_value = pd.DataFrame({
         "Дата операции": ["2023-01-01 12:00:00", "2023-01-15 14:00:00"],
         "Номер карты": ["1234567890123456", "1234567890123456"],
@@ -99,6 +111,13 @@ def test_web_site_main_empty_data(
     mock_read_xlsx,
 ):
     # Мокирование данных
+    mock_read_xlsx.__name__ = "read_xlsx"
+    mock_selecting_data_by_date.__name__ = "selecting_data_by_date"
+    mock_get_greeting.__name__ = "get_greeting"
+    mock_api_currency_stocks.__name__ = "api_currency_stocks"
+    mock_api_currency_rates.__name__ = "api_currency_rates"
+    mock_convert_stock_price.__name__ = "convert_stock_price"
+
     mock_read_xlsx.return_value = pd.DataFrame({
         "Дата операции": ["01.01.2023 12:00:00", "15.01.2023 14:00:00"],
         "Номер карты": ["1234567890123456", "1234567890123456"],
