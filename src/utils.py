@@ -16,6 +16,7 @@ def read_xlsx(xlsx_file_path: Path) -> pd.DataFrame:
     и возвращает DataFrame с банковскими операциями.
     """
     transactions_df = pd.read_excel(xlsx_file_path)
+
     return transactions_df
 
 
@@ -46,10 +47,6 @@ def selecting_data_by_date(data_for_selection: pd.DataFrame, user_input_datetime
         & (data_for_selection["Дата операции"] <= user_datetime)
         & (data_for_selection["Статус"] == "OK")
     ]
-
-    if filtered_data.empty:
-        raise ValueError("Данные за указанный период отсутствуют.")
-
     return filtered_data
 
 
@@ -85,8 +82,8 @@ def get_unique_card_number(data_df: pd.DataFrame) -> list:
 
 def calculate_total_expenses(data_df: pd.DataFrame, card_number: str) -> float:
     card_data = data_df[data_df["Номер карты"] == card_number]
-    total_expenses_calc = card_data[card_data["Сумма платежа"] < 0]["Сумма платежа"].sum()
-    return float(round(abs(total_expenses_calc), 2))
+    total_expenses_calc = float(round(abs(card_data[card_data["Сумма платежа"] < 0]["Сумма платежа"].sum()), 2))
+    return total_expenses_calc
 
 
 def calculate_cashback(input_total_expenses: float) -> int:
@@ -100,9 +97,11 @@ def get_top_operations(data_df: pd.DataFrame) -> list[dict]:
     """
     Функция для получения топ-5 транзакций по сумме платежа
     """
-    operations = data_df.nlargest(5, "Сумма платежа")[
+    operations_data = (data_df.nlargest(5, "Сумма платежа")[
         ["Дата платежа", "Сумма платежа", "Категория", "Описание"]
-    ].to_dict(orient="records")
+    ])
+
+    operations = operations_data.to_dict(orient="records")
     top_operations = []
     for operation in operations:
         operations_rename_key = {
@@ -197,8 +196,5 @@ def convert_stock_price(stock_price: list[dict]) -> list[dict]:
     """
     usd_rate = api_convert_currency()
     for value in stock_price:
-        value["price"] = usd_rate * float(value["price"])
+        value["price"] = round(usd_rate * float(value["price"]), 2)
     return stock_price
-
-
-# if __name__ == "__main__":  # pragma: no cover

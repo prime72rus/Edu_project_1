@@ -73,12 +73,6 @@ def test_selecting_data_by_date(mock_xlsx_data):
     assert result.iloc[1]["Сумма платежа"] == -200
 
 
-def test_selecting_data_by_date_empty(mock_xlsx_data):
-    user_input_datetime = "2022-12-31 23:59:59"
-    with pytest.raises(ValueError, match="Данные за указанный период отсутствуют."):
-        selecting_data_by_date(mock_xlsx_data, user_input_datetime)
-
-
 @freeze_time("2023-11-20 06:00:00")
 def test_get_greeting():
     """
