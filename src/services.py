@@ -5,7 +5,7 @@ from config import PATH_TO_OPERATIONS, PATH_TO_LOGGER
 from src.utils import read_xlsx
 
 
-logger = logging.getLogger("views")
+logger = logging.getLogger("services")
 logger.setLevel(logging.DEBUG)
 file_handler = logging.FileHandler(f"{PATH_TO_LOGGER}/services.log", mode="w", encoding="utf-8")
 file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
