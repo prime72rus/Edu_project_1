@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 from datetime import datetime, timedelta
@@ -74,9 +75,13 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
     ]
     logger.info(f"{spending_by_category.__name__} Данные по категории отфильтрованы")
     output_df = filtered_transactions[["Дата операции", "Категория", "Сумма платежа"]]
+    formated_data_for_json = filtered_transactions[["Дата операции", "Категория", "Сумма платежа"]].copy()
+    formated_data_for_json["Дата операции"] = formated_data_for_json["Дата операции"].dt.strftime("%d.%m.%Y %H:%M:%S")
+    data_dict = formated_data_for_json.to_dict(orient="records")
+    print(json.dumps(data_dict, ensure_ascii=False, indent=4))
     return output_df
 
 
 if __name__ == "__main__":
     data_df = read_xlsx(PATH_TO_OPERATIONS)
-    data_1 = spending_by_category(data_df, "Каршеринг")
+    data_1 = spending_by_category(data_df, "Супермаркеты", "2020-12-30")

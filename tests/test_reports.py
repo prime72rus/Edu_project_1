@@ -1,4 +1,6 @@
+import json
 from datetime import datetime, timedelta
+from io import StringIO
 
 import pandas as pd
 import pytest
@@ -27,11 +29,24 @@ def tmp_report_dir(tmp_path):
     report_dir.mkdir()
     return report_dir
 
-
-def test_spending_by_category(sample_data):
+@patch("sys.stdout", new_callable=StringIO)
+def test_spending_by_category(mock_stdout, sample_data):
     result = spending_by_category(sample_data, category="Фастфуд", date="2021-12-31")
     assert isinstance(result, pd.DataFrame)
-
+    output = mock_stdout.getvalue()
+    expected_output = json.dumps([
+        {
+            "Дата операции": "24.12.2021 18:18:27",
+            "Категория": "Фастфуд",
+            "Сумма платежа": -34.0
+        },
+        {
+            "Дата операции": "25.10.2021 16:07:27",
+            "Категория": "Фастфуд",
+            "Сумма платежа": -130.0
+        }
+    ], ensure_ascii=False, indent=4)
+    assert json.loads(output) == json.loads(expected_output)
     expected_dates = ["24.12.2021 18:18:27", "23.11.2021 22:33:11", "25.10.2021 16:07:27"]
     result["Дата операции"] = result["Дата операции"].dt.strftime("%d.%m.%Y %H:%M:%S")
     assert result["Дата операции"].isin(expected_dates).all()
