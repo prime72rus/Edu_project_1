@@ -1,0 +1,26 @@
+2025-03-25 20:56:50,573 - utils - INFO - checking_date_from_user Проверка ввода от пользователя
+2025-03-25 20:56:51,744 - utils - INFO - read_xlsx Чтение данных из файла D:\MyProject\PythonProjects\Edu_project_1\data\operations.xlsx
+2025-03-25 20:56:51,771 - utils - INFO - selecting_data_by_date Фильтрация данных по дате
+2025-03-25 20:56:51,772 - utils - INFO - get_greeting Выбор приветствия
+2025-03-25 20:56:51,772 - utils - INFO - get_unique_card_number Получен список номеров банковских карт
+2025-03-25 20:56:51,773 - utils - INFO - calculate_total_expenses Расчет суммы операций по платежам
+2025-03-25 20:56:51,773 - utils - INFO - calculate_cashback Посчитан кешбэк
+2025-03-25 20:56:51,774 - utils - INFO - calculate_total_expenses Расчет суммы операций по платежам
+2025-03-25 20:56:51,774 - utils - INFO - calculate_cashback Посчитан кешбэк
+2025-03-25 20:56:51,774 - utils - INFO - get_settings_from_file Получены данные пользовательских настроек из файла
+2025-03-25 20:56:52,588 - utils - INFO - api_currency_stocks Получена стоимость акций
+2025-03-25 20:56:53,319 - utils - INFO - api_currency_stocks Получена стоимость акций
+2025-03-25 20:56:54,109 - utils - INFO - api_currency_stocks Получена стоимость акций
+2025-03-25 20:56:54,940 - utils - INFO - api_currency_stocks Получена стоимость акций
+2025-03-25 20:56:55,710 - utils - INFO - api_currency_stocks Получена стоимость акций
+2025-03-25 20:56:55,715 - utils - INFO - get_top_operations Получен список топ-5 по сумме операций
+2025-03-25 20:56:55,715 - utils - INFO - get_settings_from_file Получены данные пользовательских настроек из файла
+2025-03-25 20:57:32,156 - utils - INFO - api_currency_rates Получены данные курса валют из внешнего API
+2025-03-25 20:57:32,916 - utils - INFO - api_convert_currency Получен курс USD для конвертации стоимости акций
+2025-03-25 20:57:32,917 - utils - INFO - convert_stock_price Конвертация стоимости акций из USD в RUB
+2025-03-25 20:57:32,917 - utils - INFO - convert_stock_price Конвертация стоимости акций из USD в RUB
+2025-03-25 20:57:32,917 - utils - INFO - convert_stock_price Конвертация стоимости акций из USD в RUB
+2025-03-25 20:57:32,918 - utils - INFO - convert_stock_price Конвертация стоимости акций из USD в RUB
+2025-03-25 20:57:32,918 - utils - INFO - convert_stock_price Конвертация стоимости акций из USD в RUB
+2025-03-25 20:57:33,889 - utils - INFO - read_xlsx Чтение данных из файла D:\MyProject\PythonProjects\Edu_project_1\data\operations.xlsx
+2025-03-25 20:57:34,779 - utils - INFO - read_xlsx Чтение данных из файла D:\MyProject\PythonProjects\Edu_project_1\data\operations.xlsx
