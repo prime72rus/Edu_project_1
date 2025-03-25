@@ -12,7 +12,7 @@ from src.utils import (
     get_top_operations,
     get_unique_card_number,
     read_xlsx,
-    selecting_data_by_date,
+    selecting_data_by_date
 )
 
 logger = logging.getLogger("views")

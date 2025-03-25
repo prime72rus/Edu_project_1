@@ -1,8 +1,9 @@
+import logging
 import os
 from datetime import datetime, timedelta
-from typing import Callable, Any, Optional, TypeVar, ParamSpec
+from typing import Callable, Optional, ParamSpec, TypeVar
+
 import pandas as pd
-import logging
 
 from config import PATH_TO_LOGGER, PATH_TO_OPERATIONS, PATH_TO_REPORTS
 from src.utils import read_xlsx
@@ -14,41 +15,45 @@ file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(m
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
 
-P = ParamSpec("P")  # Параметры функции
-T = TypeVar("T")    # Тип возвращаемого значения
+P = ParamSpec("P")
+T = TypeVar("T")
 
-# Декоратор без параметров
+
 def save_to_file_default(func: Callable[P, pd.DataFrame]) -> Callable[P, pd.DataFrame]:
     """
     Декоратор функции для записи отчета по тратам в файл *.xlsx. Имя файла по умолчанию.
     """
+
     def wrapper(*args: P.args, **kwargs: P.kwargs) -> pd.DataFrame:
         result = func(*args, **kwargs)
         default_filename = f"report_{func.__name__}_{datetime.now().strftime('%Y%m%d%H%M%S')}.xlsx"
         result.to_excel(os.path.join(f"{PATH_TO_REPORTS}", default_filename), index=False)
         logger.info(f"Отчет сохранен в файл: {os.path.join(f"{PATH_TO_REPORTS}", default_filename)}")
         return result
+
     return wrapper
 
-# Декоратор с параметром
+
 def save_to_file(filename: str) -> Callable[[Callable[P, pd.DataFrame]], Callable[P, pd.DataFrame]]:
     """
     Декоратор функции для записи отчета по тратам в файл *.xlsx. Имя файла вводится пользователем.
     """
+
     def decorator(func: Callable[P, pd.DataFrame]) -> Callable[P, pd.DataFrame]:
         def wrapper(*args: P.args, **kwargs: P.kwargs) -> pd.DataFrame:
             result = func(*args, **kwargs)
             result.to_excel(os.path.join(f"{PATH_TO_REPORTS}", f"{filename}.xlsx"), index=False)
             logging.info(f"Отчет сохранен в файл: {os.path.join(f"{PATH_TO_REPORTS}", f"{filename}.xlsx")}")
             return result
+
         return wrapper
+
     return decorator
+
 
 # Функция для расчета трат по категории
 @save_to_file("output_data")
-def spending_by_category(transactions: pd.DataFrame,
-                         category: str,
-                         date: Optional[str] = None) -> pd.DataFrame:
+def spending_by_category(transactions: pd.DataFrame, category: str, date: Optional[str] = None) -> pd.DataFrame:
     """
     Функция возвращает траты по заданной категории за последние три месяца (от переданной даты).
     Если дата не передана, используется текущая дата.
@@ -63,9 +68,9 @@ def spending_by_category(transactions: pd.DataFrame,
     start_date = end_date - timedelta(days=90)
 
     filtered_transactions = transactions[
-        (transactions["Дата операции"] >= start_date.strftime("%Y-%m-%d")) &
-        (transactions["Дата операции"] <= end_date.strftime("%Y-%m-%d")) &
-        (transactions["Категория"] == category)
+        (transactions["Дата операции"] >= start_date.strftime("%Y-%m-%d"))
+        & (transactions["Дата операции"] <= end_date.strftime("%Y-%m-%d"))
+        & (transactions["Категория"] == category)
     ]
     logger.info(f"{spending_by_category.__name__} Данные по категории отфильтрованы")
     return filtered_transactions[["Дата операции", "Категория", "Сумма платежа"]]

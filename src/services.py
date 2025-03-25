@@ -1,9 +1,8 @@
 import json
 import logging
 
-from config import PATH_TO_OPERATIONS, PATH_TO_LOGGER
+from config import PATH_TO_LOGGER, PATH_TO_OPERATIONS
 from src.utils import read_xlsx
-
 
 logger = logging.getLogger("services")
 logger.setLevel(logging.DEBUG)
@@ -11,6 +10,7 @@ file_handler = logging.FileHandler(f"{PATH_TO_LOGGER}/services.log", mode="w", e
 file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
+
 
 def search_translations() -> None:
     """
