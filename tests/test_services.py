@@ -9,7 +9,7 @@ from src.services import search_translations
 @patch("sys.stdout", new_callable=StringIO)
 @patch("src.services.read_xlsx")
 def test_search_translations(mock_read_xlsx, mock_stdout):
-
+    mock_read_xlsx.__name__ = "read_xlsx"
     mock_read_xlsx.return_value = pd.DataFrame({
           "Дата операции": ["31.12.2021 00:12:53", "30.12.2021 22:22:03"],
           "Дата платежа": ["31.12.2021", "31.12.2021"],
