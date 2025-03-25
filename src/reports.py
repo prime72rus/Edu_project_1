@@ -1,6 +1,6 @@
 import os
 from datetime import datetime, timedelta
-from typing import Optional
+from typing import Callable, Any, Optional, TypeVar, ParamSpec
 import pandas as pd
 import logging
 
@@ -14,12 +14,15 @@ file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(m
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
 
+P = ParamSpec("P")  # Параметры функции
+T = TypeVar("T")    # Тип возвращаемого значения
+
 # Декоратор без параметров
-def save_to_file_default(func):
+def save_to_file_default(func: Callable[P, pd.DataFrame]) -> Callable[P, pd.DataFrame]:
     """
     Декоратор функции для записи отчета по тратам в файл *.xlsx. Имя файла по умолчанию.
     """
-    def wrapper(*args, **kwargs):
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> pd.DataFrame:
         result = func(*args, **kwargs)
         default_filename = f"report_{func.__name__}_{datetime.now().strftime('%Y%m%d%H%M%S')}.xlsx"
         result.to_excel(os.path.join(f"{PATH_TO_REPORTS}", default_filename), index=False)
@@ -28,12 +31,12 @@ def save_to_file_default(func):
     return wrapper
 
 # Декоратор с параметром
-def save_to_file(filename: str):
+def save_to_file(filename: str) -> Callable[[Callable[P, pd.DataFrame]], Callable[P, pd.DataFrame]]:
     """
     Декоратор функции для записи отчета по тратам в файл *.xlsx. Имя файла вводится пользователем.
     """
-    def decorator(func):
-        def wrapper(*args, **kwargs):
+    def decorator(func: Callable[P, pd.DataFrame]) -> Callable[P, pd.DataFrame]:
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> pd.DataFrame:
             result = func(*args, **kwargs)
             result.to_excel(os.path.join(f"{PATH_TO_REPORTS}", f"{filename}.xlsx"), index=False)
             logging.info(f"Отчет сохранен в файл: {os.path.join(f"{PATH_TO_REPORTS}", f"{filename}.xlsx")}")
