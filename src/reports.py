@@ -73,9 +73,10 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
         & (transactions["Категория"] == category)
     ]
     logger.info(f"{spending_by_category.__name__} Данные по категории отфильтрованы")
-    return filtered_transactions[["Дата операции", "Категория", "Сумма платежа"]]
+    output_df = filtered_transactions[["Дата операции", "Категория", "Сумма платежа"]]
+    return output_df
 
 
 if __name__ == "__main__":
     data_df = read_xlsx(PATH_TO_OPERATIONS)
-    data_1 = spending_by_category(data_df, "Каршеринг", "2021-10-30")
+    data_1 = spending_by_category(data_df, "Каршеринг")

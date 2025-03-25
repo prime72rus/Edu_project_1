@@ -5,7 +5,6 @@ import json
 from src.views import web_site_main
 
 
-# Тест функции web_site_main
 @patch("sys.stdout", new_callable=StringIO)
 @patch("src.views.convert_stock_price")
 @patch("src.views.api_currency_rates")
@@ -30,7 +29,6 @@ def test_web_site_main(
     mock_convert_stock_price,
     mock_stdout,
 ):
-    # Мокирование данных
     mock_read_xlsx.__name__ = "read_xlsx"
     mock_selecting_data_by_date.__name__ = "selecting_data_by_date"
     mock_get_greeting.__name__ = "get_greeting"
@@ -53,7 +51,6 @@ def test_web_site_main(
         "Дата платежа": ["01.01.2023", "15.01.2023"],
     })
 
-    # Настройка поведения моков
     mock_selecting_data_by_date.return_value = pd.DataFrame({
         "Дата операции": ["2023-01-15 14:00:00"],
         "Номер карты": ["1234567890123456"],
@@ -74,10 +71,8 @@ def test_web_site_main(
     mock_api_currency_stocks.return_value = [{"stock": "AAPL", "price": "150.0"}]
     mock_convert_stock_price.return_value = [{"stock": "AAPL", "price": 10500.0}]
 
-    # Вызов тестируемой функции
     web_site_main("2023-01-15 12:00:00")
 
-    # Проверка вывода
     output = mock_stdout.getvalue()
     expected_output = json.dumps({
             "greeting": "Добрый день",
@@ -93,7 +88,6 @@ def test_web_site_main(
     assert json.loads(output) == json.loads(expected_output)
 
 
-# Тест функции web_site_main для случая пустых данных
 @patch("src.views.read_xlsx")
 @patch("src.views.selecting_data_by_date")
 @patch("src.views.get_greeting")
@@ -110,7 +104,6 @@ def test_web_site_main_empty_data(
     mock_selecting_data_by_date,
     mock_read_xlsx,
 ):
-    # Мокирование данных
     mock_read_xlsx.__name__ = "read_xlsx"
     mock_selecting_data_by_date.__name__ = "selecting_data_by_date"
     mock_get_greeting.__name__ = "get_greeting"
@@ -128,17 +121,14 @@ def test_web_site_main_empty_data(
         "Дата платежа": ["01.01.2023 12:00:00", "15.01.2023 14:00:00"],
     })
 
-    # Настройка поведения моков
     mock_selecting_data_by_date.return_value = pd.DataFrame()  # Пустой DataFrame
     mock_get_greeting.return_value = "Доброе утро"
     mock_api_currency_rates.return_value = [{"currency": "USD", "rate": 84.83}, {"currency": "EUR", "rate": 91.85}]
     mock_api_currency_stocks.return_value = [{"stock": "AAPL", "price": "150.0"}]
     mock_convert_stock_price.return_value = [{"stock": "AAPL", "price": 12724.5}]
 
-    # Вызов тестируемой функции
     web_site_main("2023-01-15 12:00:00")
 
-    # Проверка вывода
     output = mock_stdout.getvalue()
     expected_output = json.dumps({
         "greeting": "Доброе утро",
