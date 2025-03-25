@@ -86,7 +86,7 @@ def get_greeting() -> str:
 
 def get_unique_card_number(data_df: pd.DataFrame) -> list:
     """
-    Функция получения уникальных номеров карт
+    Функция получения уникальных номеров карт.
     """
     unique_cards = list(data_df["Номер карты"].dropna().unique())
     logger.info(f"{get_unique_card_number.__name__} Получен список номеров банковских карт")
@@ -94,6 +94,9 @@ def get_unique_card_number(data_df: pd.DataFrame) -> list:
 
 
 def calculate_total_expenses(data_df: pd.DataFrame, card_number: str) -> float:
+    """
+    Функция для расчета суммы операций по платежам каждой карты.
+    """
     card_data = data_df[data_df["Номер карты"] == card_number]
     total_expenses_calc = float(round(abs(card_data[card_data["Сумма платежа"] < 0]["Сумма платежа"].sum()), 2))
     logger.info(f"{calculate_total_expenses.__name__} Расчет суммы операций по платежам")
@@ -141,7 +144,7 @@ def get_settings_from_file() -> dict:
 
 def api_currency_rates() -> list[dict]:
     """
-    Функция получения курса валют из внешнего источника
+    Функция получения курса валют из внешнего API
     """
     result = []
     currency_list = get_settings_from_file()["user_currencies"]
@@ -163,7 +166,7 @@ def api_currency_rates() -> list[dict]:
 
 def api_convert_currency() -> float:
     """
-    Функция получения курса валют из внешнего источника
+    Функция получения курса USD из внешнего API для конвертации стоимости акций
     """
     load_dotenv()
     api_key = os.getenv("API_KEY_RATES")
@@ -182,7 +185,7 @@ def api_convert_currency() -> float:
 
 def api_currency_stocks() -> list[dict]:
     """
-    Функция получения курса валют из внешнего источника.
+    Функция получения стоимости акций из внешнего API
     """
     result = []
     currency_list = get_settings_from_file()["user_stocks"]
@@ -207,7 +210,7 @@ def api_currency_stocks() -> list[dict]:
 
 def convert_stock_price(stock_price: list[dict]) -> list[dict]:
     """
-    Функция конвертации стоимости акций из USD в рубли.
+    Функция конвертации стоимости акций из USD в рубли
     """
     usd_rate = api_convert_currency()
     for value in stock_price:
