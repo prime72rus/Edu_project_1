@@ -12,6 +12,7 @@ requests = "^2.32.3"
 pandas = "^2.2.3"
 pandas-stubs = "^2.2.3.241126"
 openpyxl = "^3.1.5"
+types-requests = "^2.32.0.20250306"
 
 
 [tool.poetry.group.lint.dependencies]
@@ -45,7 +46,14 @@ multi_line_output = 3
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.4"
 pytest-cov = "^6.0.0"
+freezegun = "^1.5.1"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.coverage.report]
+exclude_also = [
+    'if __name__ == .__main__.:',
+]

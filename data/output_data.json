@@ -1,0 +1,79 @@
+{
+    "greeting": "Добрый день",
+    "cards": [
+        {
+            "last_digits": "7197",
+            "total_spent": 15770.64,
+            "cashback": 157
+        },
+        {
+            "last_digits": "4556",
+            "total_spent": 250.0,
+            "cashback": 2
+        }
+    ],
+    "top_transactions": [
+        {
+            "date": "10.01.2018",
+            "amount": 30000.0,
+            "category": "Пополнения",
+            "description": "Перевод с карты"
+        },
+        {
+            "date": "10.01.2018",
+            "amount": 30000.0,
+            "category": "Пополнения",
+            "description": "Перевод с карты"
+        },
+        {
+            "date": "10.01.2018",
+            "amount": 27068.0,
+            "category": "Пополнения",
+            "description": "Перевод с карты"
+        },
+        {
+            "date": "10.01.2018",
+            "amount": 25100.0,
+            "category": "Пополнения",
+            "description": "Перевод с карты"
+        },
+        {
+            "date": "05.01.2018",
+            "amount": -21.0,
+            "category": "Красота",
+            "description": "OOO Balid"
+        }
+    ],
+    "currency_rates": [
+        {
+            "currency": "USD",
+            "rate": 84.0
+        },
+        {
+            "currency": "EUR",
+            "rate": 91.37
+        }
+    ],
+    "stock_prices": [
+        {
+            "stock": "AAPL",
+            "price": 18334.68
+        },
+        {
+            "stock": "AMZN",
+            "price": 16481.64
+        },
+        {
+            "stock": "GOOGL",
+            "price": 13775.16
+        },
+        {
+            "stock": "MSFT",
+            "price": 32865.84
+        },
+        {
+            "stock": "TSLA",
+            "price": 20891.64
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+2025-03-25 20:56:50,573 - views - INFO - web_site_main Вызов функции read_xlsx
+2025-03-25 20:56:51,744 - views - INFO - web_site_main Вызов функции selecting_data_by_date
+2025-03-25 20:56:51,772 - views - INFO - web_site_main Вызов функции get_greeting
+2025-03-25 20:56:51,772 - views - INFO - web_site_main Вызов функции get_unique_card_number
+2025-03-25 20:56:51,772 - views - INFO - web_site_main Вызов функции calculate_total_expenses
+2025-03-25 20:56:51,773 - views - INFO - web_site_main Вызов функции calculate_cashback
+2025-03-25 20:56:51,773 - views - INFO - web_site_main Вызов функции calculate_total_expenses
+2025-03-25 20:56:51,774 - views - INFO - web_site_main Вызов функции calculate_cashback
+2025-03-25 20:56:51,774 - views - INFO - web_site_main Вызов функции api_currency_stocks
+2025-03-25 20:56:55,711 - views - INFO - web_site_main Вызов функции get_top_operations
+2025-03-25 20:56:55,715 - views - INFO - web_site_main Вызов функции api_currency_rates
+2025-03-25 20:57:32,157 - views - INFO - web_site_main Вызов функции convert_stock_price
+2025-03-25 20:57:32,918 - views - INFO - web_site_main Вывод данных в консоль
